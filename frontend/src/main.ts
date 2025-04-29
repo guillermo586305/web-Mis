@@ -1,5 +1,12 @@
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
-import { AppModule } from './app/app.module';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { AppComponent } from './app/app.component';
+import { provideRouter } from '@angular/router';
 
-platformBrowserDynamic().bootstrapModule(AppModule)
-  .catch(err => console.error(err));
+bootstrapApplication(AppComponent, {
+  providers: [
+    provideRouter([
+      { path: 'login', loadComponent: () => import('./app/components/login/login.component').then(m => m.LoginComponent) },
+      { path: '**', redirectTo: 'login' }, // Ruta por defecto
+    ]),
+  ],
+}).catch(err => console.error(err));
